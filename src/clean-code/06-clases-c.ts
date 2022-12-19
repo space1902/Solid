@@ -24,21 +24,17 @@
 
     interface UserProps{
         
-        birthdate: Date;
         email: string;
-        gender: Gender;
-        name: string;
         role: string;
     }
-    class User extends Person{
+    class User{
 
         public email: string;
         public lastAcces: Date;
         public role: string;
 
-        constructor({name, gender, birthdate, email, role}:UserProps
+        constructor({email, role}:UserProps
         ){
-            super({name, gender, birthdate});
             this.email = email;
             this.lastAcces = new Date();
             this.role = role;
@@ -49,37 +45,51 @@
         }
     }
 
-    interface userSettingsProps{
-            birthdate: Date;
-            email: string;
-            gender: Gender; 
+    interface SettingsProps{
             lastOpenFolder: string;
-            name: string;
-            role: string;
             workingDirectory: string;
     }
 
-    class UserSettings extends User {
+    class Settings {
 
     public lastOpenFolder: string;
     public workingDirectory: string;
 
         constructor({
-            birthdate,
-            email, 
-            gender, 
             lastOpenFolder, 
-            name, 
-            role, 
-            workingDirectory}: userSettingsProps 
+            workingDirectory}: SettingsProps 
         ){
-            super({email,role,name,gender,birthdate});
             this.lastOpenFolder = lastOpenFolder;
             this.workingDirectory = workingDirectory;
         }
     }
+    interface userSettingsProps{
+        birthdate: Date;
+        email: string;
+        gender: Gender; 
+        lastOpenFolder: string;
+        name: string;
+        role: string;
+        workingDirectory: string;
+}
+    class userSettings{
 
-    const userSetting = new UserSettings({
+        public person : Person;
+        public settings : Settings;
+        public user : User;
+
+        constructor({
+            birthdate, gender, name,
+            lastOpenFolder, workingDirectory,
+            email, role 
+        }: userSettingsProps){
+            this.settings = new Settings({lastOpenFolder, workingDirectory});
+            this.user = new User({email, role});
+            this.person = new Person({birthdate, gender, name});
+        }
+    }
+
+    const userSetting = new userSettings({
     workingDirectory : "nome/src",
     lastOpenFolder : "/home", 
     email : "victor@gmail.com",
